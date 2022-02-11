@@ -5,7 +5,9 @@
       color="darkgreen"
       title="购物车案例"
     ></MyHeader>
-    <div class="main"><MyGoods></MyGoods></div>
+    <div class="main">
+      <MyGoods v-for="obj in list" :key="obj.id" :gObj="obj"></MyGoods>
+    </div>
     <MyFooter></MyFooter>
   </div>
 </template>
@@ -15,7 +17,11 @@
 // 1. 创建项目，下包，引入bs样式
 // 2. 拆分需求组件，创建 - 分别标签+样式
 // 3. App.vue上显示
-
+// 目标： 数据 铺设到MyGoods组件上
+// 1. 数据在data保存一下(页面只能用data里值)
+// 2. 页面v-for循环MyGoods组件
+// 3. 分别传入obj数据对象(一对一关系)
+// 4. 内部使用数据对象值渲染到标签上
 import MyHeader from "./components/MyHeader.vue";
 import MyGoods from "./components/MyGoods.vue";
 import MyFooter from "./components/MyFooter.vue";
@@ -25,6 +31,11 @@ export default {
     MyGoods,
     MyFooter,
   },
+  data() {
+    return {
+      list: [], //商品所有数据
+    };
+  },
   created() {
     // 不必再自己引入axios变量,而是直接使用全局属性$axios
     // console.log(this);
@@ -32,6 +43,7 @@ export default {
       url: "/api/cart",
     }).then((res) => {
       console.log(res);
+      this.list = res.data.list;
     });
   },
 };

@@ -2,20 +2,24 @@
   <div class="my-goods-item">
     <div class="left">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="input" />
+        <!-- *重要：每个对象和组件都是独立的
+        对象里的goods_state关联自己对应商品的复选框 -->
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="input"
+          v-model="gObj.goods_state"
+        />
         <label class="custom-control-label" for="input">
-          <img
-            src="http://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
-            alt=""
-          />
+          <img :src="gObj.goods_img" alt="" />
         </label>
       </div>
     </div>
     <div class="right">
-      <div class="top">商品名字</div>
+      <div class="top">{{ gObj.goods_name }}</div>
       <div class="bottom">
-        <span class="price">¥ 100</span>
-        <span> <MyCount></MyCount> </span>
+        <span class="price">¥ {{ gObj.goods_price }}</span>
+        <span> <MyCount :obj="gObj"></MyCount> </span>
       </div>
     </div>
   </div>
@@ -24,6 +28,9 @@
 <script>
 import MyCount from "./MyCount.vue";
 export default {
+  props: {
+    gObj: Object,
+  },
   components: {
     MyCount,
   },
