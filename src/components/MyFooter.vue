@@ -17,7 +17,9 @@
       <span class="price">¥ 0</span>
     </div>
     <!-- 按钮 -->
-    <button type="button" class="footer-btn btn btn-primary">结算 ( 0 )</button>
+    <button type="button" class="footer-btn btn btn-primary">
+      结算 ( {{ allCount }} )
+    </button>
   </div>
 </template>
 
@@ -29,6 +31,9 @@
 // 小选 -> 全选
 // App.vue里list数组 - > MyFooter.vue
 // isAll的get方法里,统计状态影响全选框
+
+// 目标: 总数量统计
+// 1.allCount计算属性用 数组reduce+判断统计数量并返回
 export default {
   props: {
     arr: Array,
@@ -45,6 +50,15 @@ export default {
         // 直接原地false
         return this.arr.every((obj) => obj.goods_state === true);
       },
+    },
+    allCount() {
+      return this.arr.reduce((sum, obj) => {
+        if (obj.goods_state === true) {
+          //选中商品才累加数量
+          sum += obj.goods_count;
+        }
+        return sum;
+      }, 0);
     },
   },
 };
