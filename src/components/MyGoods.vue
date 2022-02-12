@@ -4,13 +4,18 @@
       <div class="custom-control custom-checkbox">
         <!-- *重要：每个对象和组件都是独立的
         对象里的goods_state关联自己对应商品的复选框 -->
+        <!-- 
+          bug: 
+          循环的所有label的for都是input,id也都是input - 默认只有第一个生效
+          解决: 每次对象里的id值(1,2),分别给id 和 for 使用即可区分  
+         -->
         <input
           type="checkbox"
           class="custom-control-input"
-          id="input"
+          :id="gObj.id"
           v-model="gObj.goods_state"
         />
-        <label class="custom-control-label" for="input">
+        <label class="custom-control-label" :for="gObj.id">
           <img :src="gObj.goods_img" alt="" />
         </label>
       </div>
