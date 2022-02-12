@@ -14,7 +14,7 @@
     <!-- 合计 -->
     <div>
       <span>合计:</span>
-      <span class="price">¥ 0</span>
+      <span class="price">¥ {{ allPrice }}</span>
     </div>
     <!-- 按钮 -->
     <button type="button" class="footer-btn btn btn-primary">
@@ -34,6 +34,9 @@
 
 // 目标: 总数量统计
 // 1.allCount计算属性用 数组reduce+判断统计数量并返回
+
+// 目标: 总价
+// allPrice计算属性,数组reduce+单价*数量,判断选中,才累加后返回
 export default {
   props: {
     arr: Array,
@@ -56,6 +59,14 @@ export default {
         if (obj.goods_state === true) {
           //选中商品才累加数量
           sum += obj.goods_count;
+        }
+        return sum;
+      }, 0);
+    },
+    allPrice() {
+      return this.arr.reduce((sum, obj) => {
+        if (obj.goods_state) {
+          sum += obj.goods_count * obj.goods_price;
         }
         return sum;
       }, 0);
